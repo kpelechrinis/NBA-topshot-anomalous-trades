@@ -56,3 +56,38 @@ df_resale$pred_profit = predict(mod_resale,df_resale)
 df_resale$profit_ae = df_resale$profit - df_resale$pred_profit
 
 write.csv(df_resale,"data_RFCDE.csv")
+
+### the following lines estimate the power law exponents for the number of sales/purchases per user
+
+## power law for the number of flips a user has
+sales_list = c(table(df$seller_name))
+purchase_list = c(table(df$buyer_name))
+s_pl = displ$new(sales_list)
+est_s = estimate_xmin(s_pl)
+s_pl$setXmin(est_s)
+fit.data <- lines(s_pl, draw = F)
+plot.data <- plot(s_pl, draw = F)
+## second power law after 1800
+power.law.fit(sales_list,1800)
+s_pl2 = s_pl
+s_pl2$xmin = 1800
+s_pl2$pars = power.law.fit(sales_list,1800)$alpha
+fit.data2 <- lines(s_pl2, draw=F)
+plot.data2 <- plot(s_pl, draw=F)
+pl1<-ggplot(plot.data) + geom_point(aes(x=log(x), y=log(y))) + labs(x="log(# of sales)", y="log(CDF)", title="Sales per user") + theme_bw(base_size=17) + annotate("text", x=5, y=0.5, label=paste0("Exponents: (",as.character(round(2.4,1)),",",as.character(round(3.4,1)),")")) +geom_line(data=fit.data, aes(x=log(x), y=log(y)),size=1.1, colour="red") + geom_line(data=fit.data2, aes(x=log(x), y=log(y)), size=1.1,colour = "blue")
+
+p_pl = displ$new(purchase_list)
+est_p = estimate_xmin(p_pl)
+p_pl$setXmin(est_p)
+fit.data <- lines(p_pl, draw = F)
+plot.data <- plot(p_pl, draw = F)
+## second power law after 1800
+power.law.fit(sales_list,1800)
+p_pl2 = p_pl
+p_pl2$xmin = 2000
+p_pl2$pars = power.law.fit(sales_list,2000)$alpha
+fit.data2 <- lines(p_pl2, draw=F)
+plot.data2 <- plot(p_pl, draw=F)
+pl2<-ggplot(plot.data) + geom_point(aes(x=log(x), y=log(y))) + labs(x="log(# of purchases)", y="log(CDF)", title="Purchases per user") + theme_bw(base_size=17) + annotate("text", x=5, y=0.5, label=paste0("Exponents: (",as.character(round(2.6,1)),",",as.character(round(2.9,1)),")")) +geom_line(data=fit.data, aes(x=log(x), y=log(y)),size=1.1, colour="red") + geom_line(data=fit.data2, aes(x=log(x), y=log(y)), size=1.1,colour = "blue")
+
+
