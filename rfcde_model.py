@@ -51,7 +51,7 @@ while i < x_train.shape[0]:
 
 data['probs_cde'] = outlier_probs
 subset_d = data[(data['probs_cde'] < 0.01) & (data['profit_ae'] > 0)].reset_index(drop=True)
-
+subset_d.to_csv("an_net.csv",index=False)
 
 ## plot an example of residual CDE
 
