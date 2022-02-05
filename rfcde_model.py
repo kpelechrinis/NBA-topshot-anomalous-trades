@@ -52,26 +52,8 @@ while i < x_train.shape[0]:
 data['probs_cde'] = outlier_probs
 subset_d = data[(data['probs_cde'] < 0.01) & (data['profit_ae'] > 0)].reset_index(drop=True)
 
-'''
-outlier_probs = []
-for i in range(len(x_train)):
-for i in range(tmp2.shape[0]):
-	if i % 1000 == 0:
-		print(i)
-	density = tmp2[i,] #forest.predict(np.array(x_train)[i,], z_grid, 1)
-	true_profit = np.array(x_train)[i+10000,]+np.array(y_train)[i+10000,]
-	if true_profit > 0:
-		prob = sum(density[int(np.round(np.array(y_train)[i+10000,])[0])+30591:-1])
-	else:
-		prob = 1 - sum(density[int(np.round(np.array(y_train)[i+10000,])[0])+30591:-1])
-	outlier_probs.append(prob)
-'''
-#conditional_mean = forest.predict_mean(np.array(x_train)[0,])
-#density = forest.predict(np.array(x_train)[0,], z_grid, 1)
 
-#print(datetime.datetime.now())
-#tmp2 = forest.predict(np.array(x_train),z_grid, 1)
-#print(datetime.datetime.now())
+## plot an example of residual CDE
 
 from matplotlib import pyplot as plt
 
